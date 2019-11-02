@@ -24,16 +24,22 @@ def cross_product(origin, A, B): #>0 left <0 right 0 colinear
 
 def convex_hull(points, hull):
     points.sort(key = lambda K:K.x)
-    hull.append(points[0]) 
-    points.pop(0); #remove leftmost element
+    hull.append(points[0]) #add origin
 
-    while():
-        left_max = 0 #first element in order
-        for index, point in enumerate(points):
-            if(cross_product(hull[-1], points[left_max], point) > 0):
+    while(True): #we reached end
+        left_max = points[0] #index first element in order
+        for point in points[1:]: #start after 0
+            if(hull[-1] == point):
+                continue
+            if(cross_product(hull[-1], left_max, point) > 0):
                 left_max = point
-            elif(cross_product(hull[-1], points[left_max], point) == 0):
-                #pick furthest (add it to col points, not doing that here)
+            
+        if(left_max == hull[0]): #we reached origin
+            return
+        else:
+            hull.append(point)
+
+
 
 
 A1 = punct(0, 0, "A1")
@@ -43,6 +49,7 @@ A4 = punct(1, 1, "A4")
 
 if(colinear(A1, A2, A3) and colinear(A2, A3, A4)):
     #segment, check order
+    print("col")
 else:
     #we convex hull and check whether we have 3 or 4 points
     points = [A1, A2, A3, A4]
@@ -51,8 +58,5 @@ else:
 
     convex_hull(points, hull)
 
-    if(len(hull) == 3):
-        #triangle
-    elif(len(hull) == 4):
-        #square
-    #anything else means some points are equal and therefore segment
+    for point in hull:
+        print(point.x, " ", point.y, " ", point.id, "\n")
