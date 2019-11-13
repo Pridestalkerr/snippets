@@ -1,12 +1,25 @@
-def col(p1, p2, p3): #x, y, z
-	p1p2 = [p2[0] - p1[0], p2[1] - p1[1], p2[2] - p1[2]]
-	p1p3 = [p3[0] - p1[0], p3[1] - p1[1], p3[2] - p1[2]]
+a1 = (1,1,1)
+a2 = (2,2,2)
+a3 = (3,3,3)
 
-	sol = [p1p2[1]*p1p3[2] - p1p2[2]*p1p3[1], p1p2[2]*p1p3[0] - p1p2[0]*p1p3[2], p1p2[0]*p1p3[1] - p1p2[1]*p1p3[0]] #i,j,k
+for i in range(0,3):
+    try:
+        a = (a3[i] - a1[i]) / (a2[i] - a1[i])
 
-	if(sol == [0, 0, 0]):
-		print("col")
-	else:
-		print("not col")
+    except:
+        continue
 
-col([1,1,1], [2,2,2], [3,3,4])
+    x31 = a3[0] - a1[0]
+    y31 = a3[1] - a1[1]
+    z31 = a3[2] - a1[2]
+
+    ax21 = a * (a2[0] - a1[0])
+    ay21 = a * (a2[1] - a1[1])
+    az21 = a * (a2[2] - a1[2])
+
+    if x31 == ax21 and y31 == ay21 and z31 == az21:
+        print('puncte coliniare')
+        print('A3 = (1 - ' + str(a)+ ')*A1 + ' + str(a) + '*A2' )
+        return
+
+print('puncte necoliniare')
