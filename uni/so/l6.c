@@ -79,15 +79,18 @@ int main(int argc, char **argv)
 
 	pthread_t **thread_pool = (pthread_t**) malloc(y.m1_l * sizeof(pthread_t*));
 	int i,j;
-
+	m_instance **inst = (m_instance**) malloc(y.m1_l * sizeof(m_instance*));
 	for(i = 0; i < y.m1_l; ++i)
 	{	
 		//malloc threads
 		thread_pool[i] = (pthread_t*) malloc(y.m2_c * sizeof(pthread_t));
+		inst[i] = (m_instance*) malloc(y.m2_c * sizeof(m_instance));
 		for(j = 0; j < y.m2_c; ++j)
 		{
-			m_instance inst = {&y, i, j};
-			pthread_create(&thread_pool[i][j], NULL, prod, &inst);
+			inst[i][j].pair = &y;
+			inst[i][j].l = i;
+			inst[i][j].c = j;
+			pthread_create(&thread_pool[i][j], NULL, prod, &(inst[i][j]));
 		}
 	}
 
