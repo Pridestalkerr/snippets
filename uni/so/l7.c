@@ -8,21 +8,58 @@ typedef struct pair
 	int *available;
 }pair;
 
-void* decrease_count(void *data)
+/*void* decrease_count(void *data)
 {
 	int count = ((pair*) data)->count;
 	pthread_mutex_t *mutex = ((pair*) data)->mutex;
 	int *available = ((pair*) data)->available;
 
-	//this breaks it for some reason
 	pthread_mutex_lock(mutex);
 
 
 
 	pthread_mutex_unlock(mutex);
+}*/
 
-	
+int decrease_count(int count, pthread_mutex_t *mutex, int *resources)
+{
+	pthread_mutex_lock(mutex);
+
+	if(*resources < count)
+		return -1;
+	else
+		*resources -= count;
+
+	pthread_mutex_unlock(mutex);
+
+	return 0;
 }
+
+int increase_count(int count, pthread_mutex_t *mutex, int *resources)
+{
+	pthread_mutex_lock(mutex);
+
+	*resources += count;
+
+	pthread_mutex_unlock(mutex);
+
+	return 0;
+}
+
+void *instance(void *data)
+{
+	int count = ((pair*) data)->count;
+	pthread_mutex_t *mutex = ((pair*) data)->mutex;
+	int *available = ((pair*) data)->available;
+
+	if(decrease_count(count, mutex, available) != -1)
+		printf("-%d\n", count);
+
+	increase_count(count, mutex, available);
+	printf("%d\n", count);
+
+	return NULL;
+}	
 
 int main(int argc, char **argv)
 {
@@ -37,7 +74,7 @@ int main(int argc, char **argv)
 	for(itr = 0; itr < 5; ++itr)
 	{
 		data[itr].count = itr;
-		pthread_create(&thread_pool[itr], NULL, decrease_count, &data[itr]);
+		pthread_create(&thread_pool[itr], NULL, instance, &data[itr]);
 	}
 
 	for(itr = 0; itr < 5; ++itr)
