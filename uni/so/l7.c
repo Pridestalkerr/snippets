@@ -101,7 +101,7 @@ void *tfun(void *data)
 int main(int argc, char **argv)
 {
 	int itr;
-	/*pthread_t thread_pool[5];
+	pthread_t thread_pool[5];
 
 	pthread_mutex_t mutex;
 	pthread_mutex_init(&mutex, NULL);
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 	struct pair data[5] = {{0, &mutex, &max_resources}, {0, &mutex, &max_resources}, {0, &mutex, &max_resources}, {0, &mutex, &max_resources}, {0, &mutex, &max_resources}}; //glob scope so the stack doesnt get re written while a thread is still doing its thing...
 	for(itr = 0; itr < 5; ++itr)
 	{
-		data[itr].count = itr;
+		data[itr].count = 1;
 		pthread_create(&thread_pool[itr], NULL, instance, &data[itr]);
 	}
 
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 		pthread_join(thread_pool[itr], NULL);
 	}
 
-	pthread_mutex_destroy(&mutex);*/
+	pthread_mutex_destroy(&mutex);
 
 
 	//2
@@ -142,6 +142,9 @@ int main(int argc, char **argv)
 	{
 		pthread_join(thread_pool_s[itr], NULL);
 	}
+
+	sem_destroy(&sem);
+	pthread_mutex_destroy(&mut);
 
 	return 0;
 }
