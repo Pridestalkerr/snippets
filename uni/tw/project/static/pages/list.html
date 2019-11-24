@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
 <head>
+	<meta charset = "UTF-8">
 	<title>Trailers::Online</title>
 	<link rel = "stylesheet" type = "text/css" href="/style/index.css">
-	<script src = "/src/index.jsx"></script>
 </head>
 
 <body>
 	<div id = "navbar_container">
-		<div id = "navbar">
+		<nav id = "navbar">
 			<span id = "nav1">
 				<h1>tr::online</h1>
 			</span>
@@ -28,14 +28,29 @@
 					</span>
 				</div>
 			</span>
-		</div>
+			<h1 onclick = "show_menu()">≡</h1>
+		</nav>
 	</div>
 
 	<div id = "main_container">
-		
+		<section>
+			<h1>Welcome to Trailers::Online</h1>
+		</section>
+		<section>
+			<div class = "slider">
+				<table id = "entry_table">
+
+				</table>
+			</div>
+		</section>
+	</div>
+	<div id = "entry_container">
+		<div id = "entry_main">
+			
+		</div>
 	</div>
 </body>
 
 <footer>
-	
+	<script src = "/src/index.jsx"></script>
 </footer>

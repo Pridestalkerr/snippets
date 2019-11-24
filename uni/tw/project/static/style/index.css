@@ -1,7 +1,43 @@
+@media only screen and (max-width: 800px)
+{
+	#nav2
+	{
+		position: absolute;
+		top: 64px;
+		height: auto !important;
+		background-color: #202020;
+		width: 100% !important;
+		border-bottom: 1px solid #00FF00;
+		visibility: hidden;
+	}
+
+	#menu_desktop
+	{
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: column !important;
+		padding: 10px;
+	}
+
+	#menu_desktop span
+	{
+		margin-bottom: 10px;
+	}
+
+}
+
+@media only screen and (min-width: 801px)
+{
+	#navbar > h1
+	{
+		visibility: hidden;
+	}
+}
+
 body
 {
-	height: 100vh;
-	widows: 100vw;
+	height: 100%;
+	widows: 100%;
 	margin: 0px;
 	background-color: #101010;
 	font-family: "Monospace";
@@ -39,9 +75,16 @@ a:hover
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	height: 64px;
 	background-color: #202020;
 	border-bottom: 1px solid #00FF00;
+	animation-name: menu_pop;
+	animation-duration: 1s;
+}
+
+@keyframes menu_pop
+{
+	from {height: 0px;}
+	to {height: 64px;}
 }
 
 #navbar
@@ -64,6 +107,16 @@ a:hover
 	align-items: center;
 	height: 100%;
 	flex-grow: 1;
+	animation-name: rainbow;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+@keyframes rainbow
+{
+	from {color: #00FF00;}
+	to {color: #FF00FF;}
 }
 
 #nav2
@@ -101,6 +154,14 @@ a:hover
 	padding-top: 64px;
 }
 
+/*#main_container > section:nth-child(1)
+{
+
+	z-index: 10000;
+	position: sticky;
+	top: 64px;
+}*/
+
 .slider
 {
 	background-color: #202020;
@@ -108,16 +169,31 @@ a:hover
 	border-bottom: 1px solid #00FF00;
 }
 
+.slider > p
+{
+	margin-left: 20px;
+	text-decoration: underline;
+}
+
 #main_container section:nth-child(n+2)
 {
 	margin-bottom: 50px;
 }
 
+#main_container > section:nth-child(n+2)
+{
+	width: 100%;
+	overflow: auto;
+	background-color: #202020;
+}
+
 .slider table
 {
+	width: 100%;
 	border-bottom: 1px solid #00FF00;
 	border-radius: 2px;
 	padding: 20px;
+	overflow: auto;
 }
 
 figcaption
@@ -135,7 +211,12 @@ h1
 	font-size: 20px;
 }
 
-.slider th:hover
+.slider td
+{
+	text-align: center;
+}
+
+.slider td:hover
 {
 	background-color: #191919;
 }
@@ -158,9 +239,40 @@ h1
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: flex-start;
+	padding: 5px;
+}
+
+#entry_poster
+{
+	width: 500px;
+	height: auto;
+	object-fit: cover;
+	margin: 10px;
+}
+
+#entry_content
+{
+	margin: 10px;
 }
 
 .visible
 {
 	visibility: visible !important;
+}
+
+.slider > a
+{
+	display: inline-block;
+	line-height: 50px;
+	width: 100%;
+	text-align: center;
+}
+
+#entry_table
+{
+	overflow: auto;
 }
