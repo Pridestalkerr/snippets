@@ -92,9 +92,9 @@ def line_intersection(A, B, C, D):
 
 
 a1 = Point(0, 0)
-a2 = Point(1, 1)
+a2 = Point(2, 2)
 
-b1 = Point(0, 0)
-b2 = Point(0.5, 0.5)
+b1 = Point(3, 3)
+b2 = Point(1, 1)
 
 line_intersection(a1, a2, b1, b2)
