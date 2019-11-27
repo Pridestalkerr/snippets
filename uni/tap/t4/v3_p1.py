@@ -15,4 +15,5 @@ maxlen = [0] * 676
 for word in words:
 	maxlen[str_to_int(word[-2:])] = max(maxlen[str_to_int(word[-2:])], maxlen[str_to_int(word[:2])] + 1)
 
-print(int_to_str(max(range(len(maxlen)), key = maxlen.__getitem__)), max(maxlen))
+print(int_to_str(max(range(len(maxlen)), key = maxlen.__getitem__)), max(maxlen)
+

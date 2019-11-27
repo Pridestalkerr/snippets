@@ -5,55 +5,71 @@
 #include <cmath>
 #include <iomanip>
 
-typedef std::pair <long, long> point_t;
+typedef std::pair <long long, long long> point_t;
 
-long squared_dist(point_t a, point_t b)
+long long squared_dist(point_t a, point_t b)
 {
 	return (a.first - b.first) * (a.first - b.first) + (a.second - b.second) * (a.second - b.second);
 }
 
-//pair of indexes to the points
-std::pair <std::size_t, std::size_t> closest_pair(const std::vector <point_t> &points, std::size_t start, std::size_t end, std::vector <std::pair <std::size_t, long>> &y_sorted) //start, end INCLUSIVE
+//xsort = array containing ALL the points, sorted by x
+//start = starting index for xsort
+//end = last index for xsort (INCLUSIVE)
+//y_division = array containing the current subdivion's (start, end) points, sorted by y
+long long closest_distance(const std::vector <point_t> &xsort, std::size_t start, std::size_t end, const std::vector <point_t> y_division) //start, end INCLUSIVE
 {
 	//base case
 	if(end - start == 1)
 	{
-		return {start, end};
+		return squared_dist(xsort[start], xsort[end]);
 	}
 	if(end - start == 2)
 	{
-		std::pair <std::size_t, std::size_t> min = {start, start + 1};
-		if(std::sqrt(squared_dist(points[min.first], points[min.second])) > squared_dist(points[start + 1], points[end]))
-			min = {start + 1, end};
-		if(std::sqrt(squared_dist(points[min.first], points[min.second])) > squared_dist(points[end], points[start]))
-			min = {start, end};
+		long long min = squared_dist(xsort[start], xsort[start + 1]);
+		if(min > squared_dist(xsort[start + 1], xsort[end]))
+			min = squared_dist(xsort[start + 1], xsort[end]);
+		if(min > squared_dist(xsort[end], xsort[start]))
+			min = squared_dist(xsort[end], xsort[start]);
 		return min;
 	}
 
 	//divide
 	//array is already sorted so we can split in the middle and choose the middle points as our vertical line
-	long mid = (end + start) / 2; //points[mid] is split point
-	auto left = closest_pair(points, start, mid, y_sorted);
-	auto right = closest_pair(points, mid + 1, end, y_sorted);
+	long long mid = (end + start) / 2; //points[mid] is split point
 
-	std::pair <std::size_t, std::size_t> min;
-	if(squared_dist(points[left.first], points[left.second]) <= squared_dist(points[right.first], points[right.second]))
+	//generate the 2 y divisions
+	std::vector <point_t> left_div;
+	std::vector <point_t> right_div;
+	for(auto y_point: y_division)
+	{
+		//choose where to put every point
+		//<=mid => left
+		//>mid =>right
+		if(y_point <= xsort[mid])
+			left_div.push_back(y_point);
+		else
+			right_div.push_back(y_point);
+	}
+
+	long long left = closest_distance(xsort, start, mid, left_div);
+	long long right = closest_distance(xsort, mid + 1, end, right_div);
+
+	long long min;
+	if(left <= right)
 		min = left;
 	else
 		min = right;
 
-	long min_dd = squared_dist(points[min.first], points[min.second]);
-	double min_dist = std::sqrt(min_dd);
+	double min_dist = std::sqrt(min);
 
-	long split_point = points[mid].first;
+	long long split_point = xsort[mid].first;
 
-	std::vector <std::pair <point_t, std::size_t>> strip;
-	strip.reserve(1000);
-	for(auto &itr : y_sorted)
+	std::vector<point_t> strip;
+	for(auto &point: y_division)
 	{
-		if((points[itr.first].first <= split_point && points[itr.first].first >= split_point - min_dist) || (points[itr.first].first >= split_point && points[itr.first].first <= split_point + min_dist))
+		if((point.first <= split_point && (double)point.first >= (double)split_point - min_dist) || (point.first >= split_point && (double)point.first <= (double)split_point + min_dist))
 		{
-			strip.push_back({points[itr.first], itr.first});
+			strip.push_back(point);
 		}
 	}
 
@@ -61,11 +77,10 @@ std::pair <std::size_t, std::size_t> closest_pair(const std::vector <point_t> &p
 	{
 		for(std::size_t jtr = itr + 1; jtr < itr + 8 && jtr < strip.size(); ++jtr)
 		{
-			double dist = squared_dist(strip[itr].first, strip[jtr].first);
-			if(dist < min_dd)
+			long long dist = squared_dist(strip[itr], strip[jtr]);
+			if(dist < min)
 			{
-				min_dd = dist;
-				min = {strip[itr].second, strip[jtr].second};
+				min = dist;
 			}
 		}
 	}
@@ -77,50 +92,33 @@ int main(int argc, char **argv)
 {
 	std::ifstream file("cmap.in");
 
-	long n;
+	long long n;
 	file >> n;
 
-	std::vector <point_t> points;
-	std::vector <std::pair <std::size_t, long>> y_sorted; //index towards x and y val
+	std::vector <point_t> xsort;
+	std::vector <point_t> ysort;
 
-	points.reserve(n);
+	xsort.reserve(n);
 	for(std::size_t itr = 0; itr < n; ++itr)
 	{
-		long x, y;
+		long long x, y;
 		file >> x >> y;
-		points.push_back({x, y});
+		xsort.push_back({x, y});
 	}
-	std::sort(points.begin(), points.end(), [](point_t a, point_t b){
-		if(a.first < b.first)
-			return true;
-		if(a.first > b.first)
-			return false;
-		if(a.second < b.second)
-			return true;
-		return false;
-	});
+	std::sort(xsort.begin(), xsort.end());
 
-	y_sorted.reserve(n);
+	ysort.reserve(n);
 	for(std::size_t itr = 0; itr < n; ++itr)
 	{
-		y_sorted.push_back({itr, points[itr].second});
+		ysort.push_back(xsort[itr]);
 	}
-	std::sort(y_sorted.begin(), y_sorted.end(), [](std::pair <std::size_t, long> a, std::pair <std::size_t, long> b){
-		if(a.second < b.second)
-			return true;
-		return false;
-	});
+	std::sort(ysort.begin(), ysort.end());
 
-	/*for(auto &itr : points)
-		std::cout << itr.first << ' ' << itr.second << std::endl;*/
-
-	auto solution = closest_pair(points, 0, n - 1, y_sorted);
+	auto solution = closest_distance(xsort, 0, n - 1, ysort); //use ysort as the first division
+	double dd = std::sqrt(solution);
 
 	std::ofstream out("cmap.out");
+	out << std::setprecision(15) << dd;
 
-	//std::cout << points[solution.first].first << ' ' << points[solution.first].second << std::endl << points[solution.second].first << ' ' << points[solution.second].second << std::endl;
-	double dd = std::sqrt(squared_dist(points[solution.first], points[solution.second]));
-	out <<std::setprecision(15)<< dd;
- 
 	return 0;
 }
