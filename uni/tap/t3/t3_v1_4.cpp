@@ -90,7 +90,7 @@ long long closest_distance(const std::vector <point_t> &xsort, std::size_t start
 
 int main(int argc, char **argv)
 {
-	std::ifstream file("cmap.in");
+	std::ifstream file("f4");
 
 	long long n;
 	file >> n;

@@ -10,10 +10,9 @@ def int_to_str(integer):
 
 words = open(sys.argv[1], 'r').read().splitlines()[0].split(' ') #goddamn null
 
-maxlen = [0] * 676
+maxlen = [0] * 676 #store the max word as well if you want traceback
 
 for word in words:
 	maxlen[str_to_int(word[-2:])] = max(maxlen[str_to_int(word[-2:])], maxlen[str_to_int(word[:2])] + 1)
 
-print(int_to_str(max(range(len(maxlen)), key = maxlen.__getitem__)), max(maxlen)
-
+print(int_to_str(max(range(len(maxlen)), key = maxlen.__getitem__)), max(maxlen))

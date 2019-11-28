@@ -1,6 +1,6 @@
 import sys
 
-def fun(n, k):
+def fun(n, k): #fun(n,k) = true daca putem forma un nou vector de dim=n a.i suma = k
 	#print(k)
 	if(n == 0):
 		for element in data[0]:
