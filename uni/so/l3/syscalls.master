@@ -1,0 +1,3 @@
+331     STD         {   int sys_khello(void);   }
+
+332     STD         {   int sys_cpy_str(const char *source, char *const copy, unsigned int len);    }
