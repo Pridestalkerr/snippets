@@ -22,8 +22,6 @@ public:
 Node* buildTree(std::vector <int> &inorder, std::vector <int> &postorder, int i_start, int i_end, int &p_root, std::unordered_map <int, int> &inorder_lookup)
 {
 
-    //std::cout << i_end << ' ';
-
     if(i_start > i_end)
         return NULL;
 

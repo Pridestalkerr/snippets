@@ -1,6 +1,7 @@
 import sys
 
-
+#quick explanation:
+#	https://leetcode.com/problems/median-of-two-sorted-arrays/solution/
 
 def median(n_arr, m_arr):
 

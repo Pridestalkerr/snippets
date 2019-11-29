@@ -1,3 +1,9 @@
+/*
+
+quick explanation: https://infoarena.ro/problema/cmap
+
+*/
+
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -51,9 +57,11 @@ long long closest_distance(const std::vector <point_t> &xsort, std::size_t start
 			right_div.push_back(y_point);
 	}
 
+	//recursive call for the 2 divisions
 	long long left = closest_distance(xsort, start, mid, left_div);
 	long long right = closest_distance(xsort, mid + 1, end, right_div);
 
+	//after returning from the 2 calls, pick the min distance
 	long long min;
 	if(left <= right)
 		min = left;
@@ -64,6 +72,7 @@ long long closest_distance(const std::vector <point_t> &xsort, std::size_t start
 
 	long long split_point = xsort[mid].first;
 
+	//generate the needed strip
 	std::vector<point_t> strip;
 	for(auto &point: y_division)
 	{
@@ -73,6 +82,7 @@ long long closest_distance(const std::vector <point_t> &xsort, std::size_t start
 		}
 	}
 
+	//items are already sorted parse the points in strip and compute its distance against the following 7 points, store the min value
 	for(std::size_t itr = 0; itr < strip.size(); ++itr)
 	{
 		for(std::size_t jtr = itr + 1; jtr < itr + 8 && jtr < strip.size(); ++jtr)

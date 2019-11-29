@@ -1,7 +1,15 @@
 import sys
 
-def fun(n, k): #fun(n,k) = true daca putem forma un nou vector de dim=n a.i suma = k
-	#print(k)
+#this is recursive, complexity is identic to iteration method (!), can be unpacked to an iterative version fairly easily
+#fun(n, k) = true if we can build a new array of size = n, such that its elements sum to k and new_array[i] was taken from the i-th array
+#since we have n total arrays, and we're interested in making the solution sum to k, there are only n*k possible fun() calls, cache their values so you dont recompute them
+#computation:
+#	start with fun(n, k)
+#		for element in n-th array
+#			compute fun(n, k - element)
+#
+#this is a DFS, so the program will finish as soon as it finds a solution (compared with the iterative method which should always compute the whole problem)
+def fun(n, k):
 	if(n == 0):
 		for element in data[0]:
 			if(k - element == 0):
