@@ -58,6 +58,10 @@ def cross_product(a, b, c):
         #to the right (or colinear but we dont need it for 4 points)
         return False
 
+
+
+#main
+
 p1 = point(0, 0, "p1")
 p2 = point(2, 2, "p2")
 p3 = point(3, 3, "p3")
@@ -70,36 +74,44 @@ J = []
 #line case
 if(colinear(p1, p2, p3) and colinear(p2, p3, p4)):
     points = [p1, p2, p3, p4]
-    points.sort(key = functools.cmp_to_key(tuple_comp)) #we can just sort the points
+    #sortam punctele si le distribuim alternant celor 2 multimi
+    points.sort(key = functools.cmp_to_key(tuple_comp))
     I.append(points[0].id)
     I.append(points[2].id)
     J.append(points[1].id)
     J.append(points[3].id)
+
 #triangle case, we brute force every case (4 cases in total)
 elif(point_in_triangle(p1, p2, p3, p4)):
+    #p1 apartine triunghiului
     I.append("p1")
     J.append("p2")
     J.append("p3")
     J.append("p4")
 elif(point_in_triangle(p2, p1, p3, p4)):
+    #p2 apartine triunghiului
     I.append("p2")
     J.append("p1")
     J.append("p3")
     J.append("p4")
 elif(point_in_triangle(p3, p2, p1, p4)):
+    #p3 apartine triunghiului
     I.append("p3")
     J.append("p2")
     J.append("p1")
     J.append("p4")
 elif(point_in_triangle(p4, p2, p3, p1)):
+    #p4 apartine triunghiului
     I.append("p4")
     J.append("p2")
     J.append("p3")
     J.append("p1")
+
 #square case
 else:
+    #convex hull specific pentru 4 puncte
     points = [p1, p2, p3, p4]
-    points.sort(key = lambda point:point.x) #we sort the points according to x
+    points.sort(key = lambda point:point.x) #sortam dupa x
 
     hull = []
 
@@ -109,7 +121,7 @@ else:
 
     leftmost = 1
 
-    #we simulate a do while
+    #convex hull 
     for itr in range(0, 4):
         if(cross_product(points[curr], points[itr], points[leftmost])):
             leftmost = itr #new bound
@@ -127,6 +139,7 @@ else:
 
         curr = leftmost
 
+    #distribuim punctele alternant deoarece acestea se gasesc in ordine in hull[]
     I.append(hull[0].id)
     I.append(hull[2].id)
     J.append(hull[1].id)
