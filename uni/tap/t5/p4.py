@@ -57,7 +57,8 @@ def knapsack(sack_weight, objects):
 			max_profit = u[1]
 
 		#add the current node to the queue if a solution is feasible
-		if(bound(u, sack_weight, objects) > max_profit):
+		u[2] = bound(u, sack_weight, objects)
+		if(u[2] > max_profit):
 			q.put(list(u))
 
 		#consider u as the child that does not include the next item
@@ -65,7 +66,8 @@ def knapsack(sack_weight, objects):
 		u[1] = v[1]
 
 		#add the current node to the queue if a solution is feasible
-		if(bound(u, sack_weight, objects) > max_profit):
+		if(v[2] > max_profit):
+			u[2] = v[2]
 			q.put(list(u))
 
 

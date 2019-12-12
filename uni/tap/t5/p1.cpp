@@ -59,7 +59,7 @@ void print_sat_solutions_opt(bit::Bitset <unsigned char> variables, auto and_mas
 	if(k == threshold)
 	{
 		//check if there are no clauses left (meaning all of them became true somewhere along the tree)
-		if(and_masks.size() == 0)
+		if(and_masks.empty())
 			std::cout << mask_to_string(variables) << std::endl;
 
 		return;
@@ -73,25 +73,31 @@ void print_sat_solutions_opt(bit::Bitset <unsigned char> variables, auto and_mas
 
 	//order of clauses is not relevant
 	//push clauses that are false if the k-th variable is NOT set
+	//must only remove clauses that have the and bit set
 	for(std::size_t clause_itr = 0; clause_itr < and_masks.size(); ++clause_itr)
 	{
-		auto var_unset = variables;
-		if(((var_unset ^= xor_masks[clause_itr]) &= and_masks[clause_itr]).none())	//if no bits are set => clause is false
+		if(and_masks[clause_itr].test(k))	//check if the current clause has this literal (k)
 		{
-			//clause is false for unset variable, push it
+			if(xor_masks[clause_itr].at(k))	//if literal is negated in the clause => clause is true for unset and false for set
+			{
+				//clause is true for unset variable => its false for SET variable
+				and_masks_set.push_back(and_masks[clause_itr]);
+				xor_masks_set.push_back(xor_masks[clause_itr]);
+			}
+			else
+			{
+				and_masks_unset.push_back(and_masks[clause_itr]);
+				xor_masks_unset.push_back(xor_masks[clause_itr]);
+			}
+		}
+		else
+		{
+			and_masks_set.push_back(and_masks[clause_itr]);
+			xor_masks_set.push_back(xor_masks[clause_itr]);
+
 			and_masks_unset.push_back(and_masks[clause_itr]);
 			xor_masks_unset.push_back(xor_masks[clause_itr]);
 		}
-
-		auto var_set = variables;
-		var_set.set(k);
-		if(((var_set ^= xor_masks[clause_itr]) &= and_masks[clause_itr]).none())	//if no bits are set => clause is false
-		{
-			//clause is false for set variable, push it
-			and_masks_set.push_back(and_masks[clause_itr]);
-			xor_masks_set.push_back(xor_masks[clause_itr]);
-		}
-
 	}
 
 	//we reach the variable with 0
@@ -156,7 +162,7 @@ int main(int argc, char **argv)
 
 	//masks seem fine
 
-	print_sat_solutions_opt(variables, and_masks, xor_masks, 0, k);
+	print_sat_solutions(variables, and_masks, xor_masks, 0, k);
 
 
 	return 0;
