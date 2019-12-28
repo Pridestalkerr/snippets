@@ -2,23 +2,23 @@
 from collections import deque
 
 class Point:
-    def __init__(self, a, b):
-        self.x = a
-        self.y = b
+	def __init__(self, a, b):
+		self.x = a
+		self.y = b
 
-    def __init__(self, a):
-    	self.x = a[0]
-    	self.y = a[1]
+	def __init__(self, a):
+		self.x = a[0]
+		self.y = a[1]
 
-    def __str__(self):
-    	return '(' + str(self.x) + ', ' + str(self.y) + ')'
+	def __str__(self):
+		return '(' + str(self.x) + ', ' + str(self.y) + ')'
 
 
 def cross_product_sign(a, b, c):
-    if((b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y) >= 0):
-        return True		#to the right
-    else:
-        return False	#to the left (or collinear)
+	if((b.y - a.y) * (c.x - b.x) - (b.x - a.x) * (c.y - b.y) >= 0):
+		return True		#to the right
+	else:
+		return False	#to the left (or collinear)
 
 
 def do_melkman(polyline):
