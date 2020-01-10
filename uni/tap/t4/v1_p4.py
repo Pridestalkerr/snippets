@@ -39,7 +39,19 @@ fun_values = [ [None]*(k+1) for i in range(n) ]
 
 data.pop(0)
 
-print(fun(n - 1, k))
+if(fun(n - 1, k)):
+	n-=1
+	while(n >= 0):
+		if(n == 0):
+			break
+		for elm in data[n]:
+			if(fun(n-1, k - elm)):
+				print(elm)
+				k -= elm
+				n -= 1
+				break
 
+	print(k)
 
-
+else:
+	print("no solution")
