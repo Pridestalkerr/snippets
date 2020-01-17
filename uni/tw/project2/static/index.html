@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>irc</title>
+	<meta charset = "UTF-8">
+	<link rel = "stylesheet" type = "text/css" href="/style/index.css">
+</head>
+
+<body>
+	<!-- <div id = "main_container">
+		<div id = "menu_container">
+			
+		</div>
+		<div id = "server_container">
+			<div id = "chat_container">
+				<div id = "messages_container">
+		
+				</div>
+				<div id = "input_container">
+					
+				</div>
+			</div>
+			<div id = "users_container">
+				
+			</div>
+		</div>
+	</div> -->
+	<div>
+		your current username is: 
+		<span id = "curr_user">
+			
+		</span>
+		
+		<br>
+		<input type = "text" id = "username" placeholder = "choose username">
+		<button id = "set_user">set username</button>
+	</div>
+
+	<div id = msg_box>
+		
+	</div>
+
+	<div id = input_box>
+		<input type = "text" id = "message" placeholder = "message">
+
+		<button id = "send">send</button>
+	</div>
+
+	<div>
+		<input type = "radio" name = "background" class = "bk_rad" value = "white">	lightmode
+		<br>
+		<input type = "radio" name = "background" class = "bk_rad" value = "black">	darkmode
+	</div>
+
+
+</body>
+
+<script src = "./socket.io/socket.io.js"></script>
+<script src = "./src/index.js"></script>
+
+</html>
