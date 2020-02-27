@@ -71,7 +71,7 @@ vA23 = dist(A2, A3)                         #modulul lui A2A3
 
 v = A21.x*A23.x + A21.y*A23.y               #produsul scalar intre cei 2 vectori
 
-ca2 = v / (vA23*vA21)                       #cosinusul unghiului format in punctul A2
+ca2 = v / math.sqrt(vA23*vA21)              #cosinusul unghiului format in punctul A2
 
 
 
@@ -85,7 +85,7 @@ vA41 = dist(A4, A1)                         #modulul lui A4A1
 
 v1 = A43.x*A41.x + A43.y*A41.y              #produsul scalar intre cei 2 vectori
 
-ca4 = v1 / (vA43*vA41)                      #cosinusul unghiului format in punctul A4
+ca4 = v1 / math.sqrt(vA43*vA41)             #cosinusul unghiului format in punctul A4
 
 
 #comparam suma unghiurilor A2 si A4 cu PI
