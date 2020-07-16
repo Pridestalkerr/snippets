@@ -111,7 +111,7 @@ def mutation(population, mut_prob):
 		u = random.uniform(0, 1)
 		if(u < mut_prob):
 			pos = random.randint(0, len(individual.genome) - 1)
-			False if individual.genome[pos] == True else True
+			False if individual.genome[pos] == True else True    # bro what THE FUCK IS THIS?
 			value = 0
 			for bit in individual.genome:
 				value = (value << 1) | bit
